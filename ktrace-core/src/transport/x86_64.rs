@@ -38,8 +38,12 @@ pub fn write_bytes(data: &[u8]) {
 
 /// Write a `u32` in little-endian byte order.
 #[inline(always)]
-pub fn write_u32(val: u32) { write_bytes(&val.to_le_bytes()); }
+pub fn write_u32(val: u32) {
+    write_bytes(&val.to_le_bytes());
+}
 
 /// Write a `u64` in little-endian byte order.
 #[inline(always)]
-pub fn write_u64(val: u64) { write_bytes(&val.to_le_bytes()); }
+pub fn write_u64(val: u64) {
+    write_bytes(&val.to_le_bytes());
+}

@@ -10,12 +10,12 @@
 //! ktrace-core = { features = ["transport-arm64"] }
 //! ```
 
-/// x86_64 transport — only compiled when targeting x86_64 *and* the feature is set.
-#[cfg(all(feature = "transport-x86-64", target_arch = "x86_64"))]
-pub mod x86_64;
 /// ARM64 transport — only compiled when targeting AArch64 *and* the feature is set.
 #[cfg(all(feature = "transport-arm64", target_arch = "aarch64"))]
 pub mod arm64;
+/// x86_64 transport — only compiled when targeting x86_64 *and* the feature is set.
+#[cfg(all(feature = "transport-x86-64", target_arch = "x86_64"))]
+pub mod x86_64;
 
 /// Write a single byte to the active transport.
 ///

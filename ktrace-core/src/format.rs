@@ -82,7 +82,7 @@ impl TraceRecord {
 }
 
 /// Well-known event type constants.
-#[allow(non_upper_case_globals)]
+#[allow(non_snake_case, non_upper_case_globals)]
 pub mod EventType {
     pub const SYSCALL_ENTER: u16 = 0;
     pub const SYSCALL_EXIT: u16 = 1;

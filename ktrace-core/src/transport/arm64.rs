@@ -36,9 +36,9 @@
 /// Semihosting op: write single byte to the debug terminal.
 const SYS_WRITEC: usize = 0x03;
 /// Semihosting op: write buffer to an open file handle.
-const SYS_WRITE: usize  = 0x05;
+const SYS_WRITE: usize = 0x05;
 /// File handle for stderr — mapped to the ktrace chardev.
-const STDERR: usize     = 2;
+const STDERR: usize = 2;
 
 /// Write one byte via `SYS_WRITEC` (one trap per call).
 #[inline(always)]
@@ -83,8 +83,12 @@ pub fn write_bytes(data: &[u8]) {
 
 /// Write a `u32` in little-endian byte order.
 #[inline(always)]
-pub fn write_u32(val: u32) { write_bytes(&val.to_le_bytes()); }
+pub fn write_u32(val: u32) {
+    write_bytes(&val.to_le_bytes());
+}
 
 /// Write a `u64` in little-endian byte order.
 #[inline(always)]
-pub fn write_u64(val: u64) { write_bytes(&val.to_le_bytes()); }
+pub fn write_u64(val: u64) {
+    write_bytes(&val.to_le_bytes());
+}
