@@ -47,7 +47,11 @@ const _: () = assert!(core::mem::size_of::<TraceRecord>() == 32);
 
 impl TraceRecord {
     /// An all-zero record used to mark an empty ring slot.
-    pub const ZERO: Self = Self { tsc: 0, header: 0, data: [0; 5] };
+    pub const ZERO: Self = Self {
+        tsc: 0,
+        header: 0,
+        data: [0; 5],
+    };
 
     /// Pack `header` from its components.
     #[inline(always)]
@@ -60,32 +64,38 @@ impl TraceRecord {
 
     /// Extract `event_type` from a packed header.
     #[inline(always)]
-    pub fn event_type(header: u32) -> u16 { (header & 0x3FF) as u16 }
+    pub fn event_type(header: u32) -> u16 {
+        (header & 0x3FF) as u16
+    }
 
     /// Extract `cpu` from a packed header.
     #[inline(always)]
-    pub fn cpu(header: u32) -> u8 { ((header >> 10) & 0x7) as u8 }
+    pub fn cpu(header: u32) -> u8 {
+        ((header >> 10) & 0x7) as u8
+    }
 
     /// Extract `pid_idx` from a packed header.
     #[inline(always)]
-    pub fn pid(header: u32) -> u16 { ((header >> 13) & 0x7FF) as u16 }
+    pub fn pid(header: u32) -> u16 {
+        ((header >> 13) & 0x7FF) as u16
+    }
 }
 
 /// Well-known event type constants.
 #[allow(non_upper_case_globals)]
 pub mod EventType {
-    pub const SYSCALL_ENTER:  u16 = 0;
-    pub const SYSCALL_EXIT:   u16 = 1;
-    pub const CTX_SWITCH:     u16 = 5;
-    pub const PAGE_FAULT:     u16 = 10;
-    pub const WAITQ_SLEEP:    u16 = 70;
-    pub const WAITQ_WAKE:     u16 = 71;
-    pub const NET_CONNECT:    u16 = 193;
-    pub const NET_SEND:       u16 = 197;
-    pub const NET_RECV:       u16 = 198;
-    pub const NET_POLL:       u16 = 199;
-    pub const NET_RX_PACKET:  u16 = 201;
-    pub const NET_TX_PACKET:  u16 = 202;
-    pub const NET_TCP_STATE:  u16 = 203;
-    pub const NET_DNS_QUERY:  u16 = 204;
+    pub const SYSCALL_ENTER: u16 = 0;
+    pub const SYSCALL_EXIT: u16 = 1;
+    pub const CTX_SWITCH: u16 = 5;
+    pub const PAGE_FAULT: u16 = 10;
+    pub const WAITQ_SLEEP: u16 = 70;
+    pub const WAITQ_WAKE: u16 = 71;
+    pub const NET_CONNECT: u16 = 193;
+    pub const NET_SEND: u16 = 197;
+    pub const NET_RECV: u16 = 198;
+    pub const NET_POLL: u16 = 199;
+    pub const NET_RX_PACKET: u16 = 201;
+    pub const NET_TX_PACKET: u16 = 202;
+    pub const NET_TCP_STATE: u16 = 203;
+    pub const NET_DNS_QUERY: u16 = 204;
 }
