@@ -1,0 +1,23 @@
+[package]
+name    = "ktrace-core"
+version = "0.1.0"
+edition = "2021"
+description = "Multi-architecture kernel trace protocol: KTRX v1 wire format and QEMU transports"
+license     = "MIT OR Apache-2.0 OR BSD-2-Clause"
+
+[features]
+default = []
+## Enable the ISA debugcon transport for x86_64.
+transport-x86-64 = []
+## Enable the ARM semihosting transport for ARM64.
+transport-arm64 = []
+
+[dependencies]
+# no_std — zero host dependencies
+
+[lib]
+name = "ktrace_core"
+
+[profile.release]
+opt-level = 3
+lto        = true
