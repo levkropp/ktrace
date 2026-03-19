@@ -1,5 +1,8 @@
 # ktrace — Multi-Architecture Kernel Trace Protocol
 
+[![CI](https://github.com/levkropp/ktrace/actions/workflows/ci.yml/badge.svg)](https://github.com/levkropp/ktrace/actions/workflows/ci.yml)
+[![license: MIT OR Apache-2.0 OR BSD-2-Clause](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0%20OR%20BSD--2--Clause-blue)](#license)
+
 **ktrace** is a minimal, high-bandwidth binary kernel tracing system designed
 for bare-metal kernels running under QEMU.  It provides:
 
@@ -85,6 +88,59 @@ ktrace/
 │           └── arm64.rs     # ARM semihosting (HLT #0xF000, SYS_WRITE)
 └── decode/
     └── ktrace-decode.py     # Host-side binary decoder
+```
+
+## Install / PATH setup
+
+### Clone and use as a path dependency
+
+```sh
+git clone https://github.com/levkropp/ktrace.git
+```
+
+Add `ktrace-core` to your kernel's `Cargo.toml` using a relative path:
+
+```toml
+[dependencies]
+# x86_64 bare-metal kernel
+ktrace-core = { path = "../ktrace/ktrace-core", features = ["transport-x86-64"] }
+
+# AArch64 bare-metal kernel
+ktrace-core = { path = "../ktrace/ktrace-core", features = ["transport-arm64"] }
+```
+
+### Decoder script on your PATH
+
+The host-side decoder is a single Python script.  To make it available system-wide:
+
+```sh
+# Option 1 — symlink into a directory already on PATH
+ln -s "$PWD/decode/ktrace-decode.py" ~/.local/bin/ktrace-decode
+chmod +x decode/ktrace-decode.py
+
+# Option 2 — add decode/ to PATH in your shell profile
+echo 'export PATH="$HOME/path/to/ktrace/decode:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+
+# Then run anywhere:
+ktrace-decode ktrace.bin
+ktrace-decode ktrace.bin --summary
+ktrace-decode ktrace.bin --perfetto trace.json
+```
+
+### Cross-compile prerequisites (for bare-metal targets)
+
+```sh
+# Nightly Rust + bare-metal targets
+rustup toolchain install nightly
+rustup target add x86_64-unknown-none --toolchain nightly
+rustup target add aarch64-unknown-none --toolchain nightly
+
+# Build for x86_64-unknown-none
+cargo +nightly build -p ktrace-core \
+  --target x86_64-unknown-none \
+  --features transport-x86-64 \
+  -Z build-std=core
 ```
 
 ## License
